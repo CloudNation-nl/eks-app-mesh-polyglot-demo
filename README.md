@@ -1,3 +1,11 @@
+# Welcome!
+
+Run the following command to get started:
+
+```
+bash setup.sh
+```
+
 This repository is used for many AWS EKS workshops in https://catalog.workshops.aws/eks-immersionday/en-US
 
 ## 1. Workshop on Polyglot Microservices in EKS

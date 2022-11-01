@@ -32,3 +32,7 @@ aws cloud9 update-environment  --environment-id $C9_PID --managed-credentials-ac
 rm -vf ${HOME}/.aws/credentials
 aws eks update-kubeconfig --region eu-west-1 --name eksworkshop-eksctl-2
 kubectl get nodes
+
+curl -sSL https://raw.githubusercontent.com/helm/helm/master/scripts/get-helm-3 | bash
+helm version --short
+helm list
