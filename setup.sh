@@ -5,7 +5,6 @@ sudo curl --silent --location -o /usr/local/bin/kubectl \
    https://amazon-eks.s3.us-west-2.amazonaws.com/1.20.4/2021-04-12/bin/linux/amd64/kubectl
 
 sudo chmod +x /usr/local/bin/kubectl
-curl "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o "awscliv2.zip"
 unzip awscliv2.zip
 sudo ./aws/install
 sudo yum -y install jq gettext bash-completion moreutils
@@ -30,9 +29,13 @@ echo "alias kgn='kubectl get nodes -L beta.kubernetes.io/arch -L eks.amazonaws.c
 source ~/.bashrc
 aws cloud9 update-environment  --environment-id $C9_PID --managed-credentials-action DISABLE
 rm -vf ${HOME}/.aws/credentials
-aws eks update-kubeconfig --region eu-west-1 --name eksworkshop-eksctl-2
+export AWS_DEFAULT_REGION=eu-west-1
+aws eks update-kubeconfig --region $AWS_DEFAULT_REGION --name eksworkshop-eksctl-2
 kubectl get nodes
 
 curl -sSL https://raw.githubusercontent.com/helm/helm/master/scripts/get-helm-3 | bash
 helm version --short
 helm list
+
+
+eksctl set

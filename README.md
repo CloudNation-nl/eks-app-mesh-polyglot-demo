@@ -1,9 +1,9 @@
 # Welcome!
 
-Run the following command to get started:
+Run the following command to get started (!!INCLUDE the dot and space!!):
 
 ```
-bash setup.sh
+. setup.sh
 ```
 
 This repository is used for many AWS EKS workshops in https://catalog.workshops.aws/eks-immersionday/en-US
