@@ -4,9 +4,8 @@
 We will start interacting with kubernetes on a basic level
 To get started run the following command (note the period and the space in front!)
 
-
 ```
-cd /eks-workshop/labs/
+cd /home/ec2-user/environment/eks-app-mesh-polyglot-demo/
 . minilab.sh
 ```
 This will install all prerequisites for interacting with kubernetes locally. We use `minikube` for this.
