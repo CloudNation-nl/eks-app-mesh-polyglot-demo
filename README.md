@@ -37,7 +37,7 @@ This repository is used for many AWS EKS workshops in https://catalog.workshops.
 
 ## 1. Workshop on Polyglot Microservices in EKS
 
-![frontend](workshop/images/lbui.png)
+![frontend](/eks-workshop/images/lbui.png)
 
 To Run this workshop,follow the below steps: 
 
