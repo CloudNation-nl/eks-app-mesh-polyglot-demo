@@ -1,6 +1,6 @@
 # Welcome!
 
-## Kubernetes mini-lab:
+## Kubernetes mini-lab (kubectl & manifests):
 We will start interacting with kubernetes on a basic level
 To get started run the following command (note the period and the space in front!)
 
@@ -14,7 +14,7 @@ To start the cluster run:
 ```
 minikube start
 ```
-
+## Using kubectl
 We will now create a pod and expose it using `kubectl` command line interface.
 ```
 minikubectl create deployment nginx --image=nginx
