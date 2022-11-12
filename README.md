@@ -67,7 +67,7 @@ export LB_NAME=$(kubectl get svc frontend -n workshop -o jsonpath="{.status.load
 echo $LB_NAME:9000
 ```
 Go to the browser and paste this url, you should see below screen
-![fronteend](workshop/images/workshopui.png)
+![fronteend - note path is optimized for cloud9](/eks-workshop/images/workshopui.png)
 
 You can add products and see the below details
-![fronteend](workshop/images/addproducts.png)
+![fronteend - note path is optimized for cloud9](/eks-workshop/images/addproducts.png)
