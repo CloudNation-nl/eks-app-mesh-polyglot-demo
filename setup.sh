@@ -32,7 +32,7 @@ rm -vf ${HOME}/.aws/credentials
 export AWS_DEFAULT_REGION=eu-west-1
 export AWS_REGION=eu-west-1
 export ACCOUNT_ID=$(aws sts get-caller-identity --query "Account" --output text)
-aws eks update-kubeconfig --region $AWS_DEFAULT_REGION --name eksworkshop-eksctl-2
+aws eks update-kubeconfig --region $AWS_DEFAULT_REGION --name eksworkshop-eksctl
 kubectl get nodes
 
 curl -sSL https://raw.githubusercontent.com/helm/helm/master/scripts/get-helm-3 | bash

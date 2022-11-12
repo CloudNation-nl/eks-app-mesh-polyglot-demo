@@ -1,26 +1,53 @@
 # Welcome!
 
-Run the following command to get started (!!INCLUDE the dot and space!!):
+## Kubernetes mini-lab:
+We will start interacting with kubernetes on a basic level
+To get started run the following command (note the period and the space in front!)
 
 ```
-. setup.sh
+. minilab.sh
 ```
+This will install all prerequisites for interacting with kubernetes locally. We use `minikube` for this.
+
+To start the cluster run:
+```
+minikube start
+```
+
+We will now create a pod and expose it using `kubectl` command line interface.
+```
+minikubectl create deployment nginx --image=nginx
+minikubectl expose deployment nginx --type=NodePort --port=80
+```
+This creates a deployment of 1 `nginx` container.
+You can get the url of this service by running `minikube service nginx --url`. 
+You can use it to get the server response by running:
+```
+curl $(minikube service nginx --url)
+```
+
+And that's it! You've created your first kubernetes deployment and service!
+To free up some memory, you can run
+```
+minikube delete
+```
+
 
 This repository is used for many AWS EKS workshops in https://catalog.workshops.aws/eks-immersionday/en-US
 
 ## 1. Workshop on Polyglot Microservices in EKS
 
-![fronteend](workshop/images/lbui.png)
+![frontend](workshop/images/lbui.png)
 
 To Run this workshop,follow the below steps: 
 
-### Clone the Repository
+### Run the setup script
 ```
-git clone https://github.com/aws-containers/eks-app-mesh-polyglot-demo.git
-cd eks-app-mesh-polyglot-demo/workshop
+. setup.sh
 ```
 
-### Install the Helm chart
+
+### Lab 1: Install the Helm chart
 ```
 helm install workshop helm-chart/
 ```
@@ -44,15 +71,3 @@ Go to the browser and paste this url, you should see below screen
 
 You can add products and see the below details
 ![fronteend](workshop/images/addproducts.png)
-
-
-## 2. Workshop on Polyglot Microservices in App Mesh and EKS plus Fargate
-
-In this tutorial, we’ll walk you through the following, which are popular App Mesh use cases using the example of below Product Catalog Application deployment. For complete documentation checkout [Service Mesh using App Mesh](https://www.eksworkshop.com/advanced/330_servicemesh_using_appmesh/)
-
-* Deploy a microservices-based application in Amazon EKS using AWS Fargate
-* Configure an App Mesh Virtual Gateway to route traffic to the application services
-* Create a Canary Deployment using App Mesh
-* Enable observability features with App Mesh, including logging for Fargate, Amazon Cloudwatch Container Insights, and AWS X-Ray tracing
-
-![fronteend](images/lbfrontend-2.png)
