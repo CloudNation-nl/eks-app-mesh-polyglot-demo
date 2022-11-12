@@ -128,29 +128,94 @@ To Run this workshop,follow the below steps:
 . setup.sh
 ```
 
-The rest of the labs can be followed at https://catalog.workshops.aws/eks-immersionday/en-US
 
-### Lab 1: Install the Helm chart
-```
-helm install workshop helm-chart/
-```
-You should see below output
-```
-NOTES:
-1. Get the application URL by running these commands:
-     NOTE: It may take a few minutes for the LoadBalancer to be available.
-           You can watch the status of by running 'kubectl get --namespace workshop svc -w frontend'
-  export LB_NAME=$(kubectl get svc --namespace workshop frontend -o jsonpath="{.status.loadBalancer.ingress[*].hostname}")
-  echo http://$LB_NAME:9000
- ```
+### Lab 1: Installing Helm charts
+Follow the first lab at https://catalog.workshops.aws/eks-immersionday/en-US/helm/deploy
 
-### Get the LoadBalancer url. 
-```
-export LB_NAME=$(kubectl get svc frontend -n workshop -o jsonpath="{.status.loadBalancer.ingress[*].hostname}") 
-echo $LB_NAME:9000
-```
-Go to the browser and paste this url, you should see below screen
-![fronteend - note path is optimized for cloud9](/home/ec2-user/environment/eks-app-mesh-polyglot-demo/images/workshopui.png)
+### Lab 2: Using Iam Roles for Service Accounts (IRSA)
+Follow the lab at https://catalog.workshops.aws/eks-immersionday/en-US/irsa
 
-You can add products and see the below details
-![fronteend - note path is optimized for cloud9](/home/ec2-user/environment/eks-app-mesh-polyglot-demo/images/addproducts.png)
+### Lab 3: Observability
+
+
+NOTE:  Due to a bug, after the setup, run
+```
+kubectl rollout restart ds/fluent-bit -n amazon-cloudwatch
+```
+Also, check out the container insights container map!
+
+### Lab 4: Autoscaling
+Follow the lab at https://catalog.workshops.aws/eks-immersionday/en-US/autoscaling
+
+#### Kube ops view bugs
+NOTE: Due to a bug, instead of installing `kube-ops-view` via helm, use the following commands
+
+```
+cd ~/environment
+git clone https://codeberg.org/hjacobs/kube-ops-view.git
+cd kube-ops-view
+cat <<EoF> ~/environment/kube-ops-view/deploy/service.yaml
+apiVersion: v1
+kind: Service
+metadata:
+  labels:
+    application: kube-ops-view
+    component: frontend
+  name: kube-ops-view
+spec:
+  selector:
+    application: kube-ops-view
+    component: frontend
+  type: LoadBalancer
+  ports:
+  - port: 80
+    protocol: TCP
+    targetPort: 8080
+EoF
+
+kubectl apply -k deploy
+
+```
+
+
+#### Horizontal pod scaling bugs
+Second bug: Use version 0.6.0 of metrics server
+
+```
+kubectl apply -f https://github.com/kubernetes-sigs/metrics-server/releases/download/v0.6.0/components.yaml
+```
+
+If you accidentally installed the latest version already, run:
+```
+wget https://github.com/kubernetes-sigs/metrics-server/releases/download/v0.5.0/components.yaml
+kubectl delete -f components.yaml
+kubectl apply -f https://github.com/kubernetes-sigs/metrics-server/releases/download/v0.6.0/components.yaml
+```
+
+
+#### Karpenter bugs
+
+To do the tagging, instead of running the commands listed in the workshop, run:
+```
+SUBNET_IDS=$(aws ec2 describe-subnets --query 'Subnets[?MapPublicIpOnLaunch==`false`].SubnetId' --output text)  
+aws ec2 create-tags \
+    --resources $(echo $SUBNET_IDS | tr ',' '\n') \
+    --tags Key="alpha.eksctl.io/cluster-name",Value="${CLUSTER_NAME}"                                                                                                  
+
+SG_ID=$(aws ec2 describe-security-groups  --filter  Name=tag:Name,Values=eksworkshop-eksctl-node     --query "SecurityGroups[*].GroupId" --output text)
+
+aws ec2 create-tags \
+    --resources $SG_ID \
+    --tags Key="alpha.eksctl.io/cluster-name",Value="${CLUSTER_NAME}"                                                                                                                                                            
+```
+eksworkshop-eksctl
+Validate the setup using
+```
+VALIDATION_SUBNETS_IDS=$(aws ec2 describe-subnets --filters Name=tag:"alpha.eksctl.io/cluster-name",Values="${CLUSTER_NAME}" --query "Subnets[].SubnetId" --output text | sed 's/\t/,/')
+echo "$SUBNET_IDS == $VALIDATION_SUBNETS_IDS"
+```
+
+### Lab 5: Fargate
+Follow the lab at https://catalog.workshops.aws/eks-immersionday/en-US/fargate
+
+No bugs!
