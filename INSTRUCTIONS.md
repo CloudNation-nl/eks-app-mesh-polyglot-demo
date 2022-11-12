@@ -4,7 +4,9 @@
 We will start interacting with kubernetes on a basic level
 To get started run the following command (note the period and the space in front!)
 
+
 ```
+cd /eks-workshop/labs/
 . minilab.sh
 ```
 This will install all prerequisites for interacting with kubernetes locally. We use `minikube` for this.
@@ -26,7 +28,65 @@ You can use it to get the server response by running:
 curl $(minikube service nginx --url)
 ```
 
-And that's it! You've created your first kubernetes deployment and service!
+And that's it! You've created your first kubernetes deployment and service!.
+
+### Using manifest files
+Now, create a new file callled `nginx.manifest` with the following content:
+```yaml
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: nginx-manifest
+  labels:
+    app: nginx-manifest
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: nginx-manifest
+  template:
+    metadata:
+      labels:
+        app: nginx-manifest
+    spec:
+      containers:
+      - name: nginx
+        image: nginx
+        ports:
+        - containerPort: 80
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: nginx-manifest
+spec:
+  type: NodePort
+  selector:
+    app: nginx-manifest
+  ports:
+  - 
+    protocol: TCP
+    port: 80 # For convenience, port equals to targetPort. Note however that in type=Nodeport an ephermal port is automatically chosen instead
+    targetPort: 80
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: nginx-manifest
+spec:
+  type: NodePort
+  selector:
+    app: nginx-manifest
+  ports:
+  - # name: name-of-service-port
+    protocol: TCP
+#     port: 80 # By not specifying, kubernetes automaticallly selects a port for you
+    targetPort: http-web-svc # Refer to the named port
+
+```
+
 To free up some memory, you can run
 ```
 minikube delete
