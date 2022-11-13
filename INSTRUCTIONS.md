@@ -14,7 +14,8 @@ To start the cluster run:
 ```
 minikube start
 ```
-## Using kubectl
+> NOTE: Sometimes docker hasn't started yet. Try re-running the command if you get this error!
+### Using kubectl
 We will now create a pod and expose it using `kubectl` command line interface.
 ```
 minikubectl create deployment nginx --image=nginx
@@ -119,7 +120,7 @@ minikube delete
 ```
 
 
-## 1. Workshop on Polyglot Microservices in EKS
+## EKS WORKSHOP
 
 To Run this workshop,follow the below steps: 
 
@@ -128,11 +129,19 @@ To Run this workshop,follow the below steps:
 . setup.sh
 ```
 
+### About the architecture
+
 
 ### Lab 1: Installing Helm charts
+> You can learn more about the application we are about to deploy at the link below.
+However, don't follow instructions and do NOT clone the repository listed here. 
+After reading, return to this guide.
+Link: https://catalog.workshops.aws/eks-immersionday/en-US/aboutworkshopapp
+
 Follow the first lab at https://catalog.workshops.aws/eks-immersionday/en-US/helm/deploy
 
 ### Lab 2: Using Iam Roles for Service Accounts (IRSA)
+
 Follow the lab at https://catalog.workshops.aws/eks-immersionday/en-US/irsa
 
 ### Lab 3: Observability
@@ -144,7 +153,11 @@ kubectl rollout restart ds/fluent-bit -n amazon-cloudwatch
 ```
 Also, check out the container insights container map!
 
-### Lab 4: Autoscaling
+### Lab 4: Exposing your app to the internet
+
+Follow the lab, https://catalog.workshops.aws/eks-immersionday/en-US/services-and-ingress/ingress
+
+### Lab 5: Autoscaling
 Follow the lab at https://catalog.workshops.aws/eks-immersionday/en-US/autoscaling
 
 #### Kube ops view bugs
@@ -215,7 +228,7 @@ VALIDATION_SUBNETS_IDS=$(aws ec2 describe-subnets --filters Name=tag:"alpha.eksc
 echo "$SUBNET_IDS == $VALIDATION_SUBNETS_IDS"
 ```
 
-### Lab 5: Fargate
+### Lab 6: Fargate
 Follow the lab at https://catalog.workshops.aws/eks-immersionday/en-US/fargate
 
 No bugs!
